@@ -5,6 +5,10 @@
 bin/
 out/
 target/
+compilados/
 
 # Archivos del sistema
 .DS_Store
+
+#Archivos .txt
+*.txt
