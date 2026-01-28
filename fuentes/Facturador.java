@@ -24,26 +24,13 @@ public class Facturador{
 			Integer iConcierto = actuaciones[i][0];
 			Double importeActuacion = 0d;
 
-			switch (repertorio[iConcierto][1]){
-				case "heavy":
-					importeActuacion = 4000d;
-					if (actuaciones[i][1] > 500)
-						importeActuacion += 20 * (actuaciones[i][1] - 500);
-					break;
-				case "rock":
-					importeActuacion = 3000d;
-					if (actuaciones[i][1] > 1000)
-						importeActuacion += 30 * (actuaciones[i][1] - 1000);
-					break;
-				default:
-					throw new Exception("Tipo de concierto desconocido.");
-			}
+			// Llamada al método extraído
+			importeActuacion = calcularImporteActuacion(repertorio[iConcierto][1], actuaciones[i][1]);
 			
 			totalFactura += importeActuacion;
 
-			creditos += Math.max(actuaciones[i][1] - 500, 0);
-			if (repertorio[iConcierto][1].equals("heavy"))
-				creditos += actuaciones[i][1] / 5;
+			// Llamada al método extraído
+			creditos += calcularCreditos(repertorio[iConcierto][1], actuaciones[i][1]);
 
 			System.out.println("\tConcierto: " + repertorio[iConcierto][0]);
 			System.out.println("\t\tAsistentes: " + actuaciones[i][1]);
@@ -53,5 +40,41 @@ public class Facturador{
 		System.out.printf("TOTAL FACTURA: %.2f euros\n", totalFactura * 1.21);
 		System.out.println("Créditos obtenidos: " + creditos);
 
+	}
+	
+	// Método extraído para calcular el importe de una actuación
+	private static Double calcularImporteActuacion(String tipo, Integer asistentes) throws Exception {
+		Double importeActuacion = 0d;
+
+		switch (tipo){
+			case "heavy":
+				importeActuacion = 4000d;
+				if (asistentes > 500)
+					importeActuacion += 20 * (asistentes - 500);
+				break;
+			case "rock":
+				importeActuacion = 3000d;
+				if (asistentes > 1000)
+					importeActuacion += 30 * (asistentes - 1000);
+				break;
+			default:
+				throw new Exception("Tipo de concierto desconocido.");
+		}
+		
+		return importeActuacion;
+	}
+	
+	// Método extraído para calcular los créditos de una actuación
+	private static Integer calcularCreditos(String tipo, Integer asistentes) {
+		Integer creditosActuacion = 0;
+		
+		// Créditos base por asistencia (más de 500 asistentes)
+		creditosActuacion += Math.max(asistentes - 500, 0);
+		
+		// Créditos extra para conciertos heavy (1 crédito cada 5 asistentes)
+		if (tipo.equals("heavy"))
+			creditosActuacion += asistentes / 5;
+			
+		return creditosActuacion;
 	}
 }
