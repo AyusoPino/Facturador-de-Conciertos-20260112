@@ -7,6 +7,13 @@ public class Facturador{
 		,{"Magia Knoppler", "rock"}
 		,{"Demonios Rojos", "heavy"}
 	};
+	static final Double BASE_HEAVY = 4000d;
+	static final Double BASE_ROCK = 3000d;
+	static final Integer UMBRAL_HEAVY = 500;
+	static final Integer UMBRAL_ROCK = 1000;
+	static final Integer EXTRA_HEAVY = 20;
+	static final Integer EXTRA_ROCK = 30;
+	static final Double IVA = 0.21;
 
 	//Actuaciones realizadas indicando el concierto ofrecido y audiencias obtenidas.
 	static Integer[][] actuaciones = {{0, 2000}, {2, 1200}, {0, 950}, {3, 1140}};
@@ -22,16 +29,13 @@ public class Facturador{
 
 		for(int i = 0; i < actuaciones.length; i++){
 			Integer iConcierto = actuaciones[i][0];
-			Double importeActuacion = 0d;
-
-			// Llamada al método extraído
-			importeActuacion = calcularImporteActuacion(repertorio[iConcierto][1], actuaciones[i][1]);
 			
-			totalFactura += importeActuacion;
-
-			// Llamada al método extraído
-			creditos += calcularCreditos(repertorio[iConcierto][1], actuaciones[i][1]);
-
+			String tipoActuacion = repertorio[iConcierto][1];
+			Integer asistentes = actuaciones[i][1];
+			
+			totalFactura += calcularImporteActuacion(tipoActuacion, asistentes);
+			creditos += calcularCreditos(tipoActuacion, asistentes);
+			
 			System.out.println("\tConcierto: " + repertorio[iConcierto][0]);
 			System.out.println("\t\tAsistentes: " + actuaciones[i][1]);
 		}
@@ -67,14 +71,10 @@ public class Facturador{
 	// Método extraído para calcular los créditos de una actuación
 	private static Integer calcularCreditos(String tipo, Integer asistentes) {
 		Integer creditosActuacion = 0;
-		
-		// Créditos base por asistencia (más de 500 asistentes)
 		creditosActuacion += Math.max(asistentes - 500, 0);
-		
-		// Créditos extra para conciertos heavy (1 crédito cada 5 asistentes)
-		if (tipo.equals("heavy"))
-			creditosActuacion += asistentes / 5;
-			
+			if (tipo.equals("heavy"))
+				creditosActuacion += asistentes / 5;
+
 		return creditosActuacion;
 	}
 }
