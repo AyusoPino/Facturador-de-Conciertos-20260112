@@ -1,0 +1,10 @@
+# Archivos compilados de Java
+*.class
+
+# Carpetas típicas de compilación
+bin/
+out/
+target/
+
+# Archivos del sistema
+.DS_Store
