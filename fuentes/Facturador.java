@@ -40,8 +40,8 @@ public class Facturador{
 			System.out.println("\t\tAsistentes: " + actuaciones[i][1]);
 		}
 		System.out.println("BASE IMPONIBLE: " + totalFactura + " euros");
-		System.out.printf("IVA (21%%): %.2f euros\n", totalFactura * 0.21);
-		System.out.printf("TOTAL FACTURA: %.2f euros\n", totalFactura * 1.21);
+		System.out.printf("IVA (21%%): %.2f euros\n", totalFactura * IVA);
+		System.out.printf("TOTAL FACTURA: %.2f euros\n", totalFactura * (1 + IVA));
 		System.out.println("Créditos obtenidos: " + creditos);
 
 	}
@@ -52,14 +52,14 @@ public class Facturador{
 
 		switch (tipo){
 			case "heavy":
-				importeActuacion = 4000d;
-				if (asistentes > 500)
-					importeActuacion += 20 * (asistentes - 500);
+				importeActuacion = BASE_HEAVY;
+				if (asistentes > UMBRAL_HEAVY)
+					importeActuacion += EXTRA_HEAVY * (asistentes - UMBRAL_HEAVY);
 				break;
 			case "rock":
-				importeActuacion = 3000d;
-				if (asistentes > 1000)
-					importeActuacion += 30 * (asistentes - 1000);
+				importeActuacion = BASE_ROCK;
+				if (asistentes > UMBRAL_ROCK)
+					importeActuacion += EXTRA_ROCK * (asistentes - UMBRAL_ROCK);
 				break;
 			default:
 				throw new Exception("Tipo de concierto desconocido.");
