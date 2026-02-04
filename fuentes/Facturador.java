@@ -1,4 +1,6 @@
 public class Facturador{
+	
+	public enum TipoConcierto {HEAVY, ROCK}
 
 	//Repertorio de conciertos del grupo
 	static String[][] conciertos = {
@@ -45,18 +47,20 @@ public class Facturador{
 		System.out.println("Créditos obtenidos: " + creditos);
 
 	}
-	
-	// Método extraído para calcular el importe de una actuación
+
 	private static Double calcularImporteActuacion(String tipo, Integer asistentes) throws Exception {
+		
+		TipoConcierto tipoConcierto = TipoConcierto.valueOf(tipo.toUpperCase().trim());
+		
 		Double importeActuacion = 0d;
 
-		switch (tipo){
-			case "heavy":
+		switch (tipoConcierto){
+			case HEAVY:
 				importeActuacion = BASE_HEAVY;
 				if (asistentes > UMBRAL_HEAVY)
 					importeActuacion += EXTRA_HEAVY * (asistentes - UMBRAL_HEAVY);
 				break;
-			case "rock":
+			case ROCK:
 				importeActuacion = BASE_ROCK;
 				if (asistentes > UMBRAL_ROCK)
 					importeActuacion += EXTRA_ROCK * (asistentes - UMBRAL_ROCK);
@@ -68,7 +72,6 @@ public class Facturador{
 		return importeActuacion;
 	}
 	
-	// Método extraído para calcular los créditos de una actuación
 	private static Integer calcularCreditos(String tipo, Integer asistentes) {
 		Integer creditosActuacion = 0;
 		creditosActuacion += Math.max(asistentes - 500, 0);
@@ -77,4 +80,5 @@ public class Facturador{
 
 		return creditosActuacion;
 	}
+
 }
